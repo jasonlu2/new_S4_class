@@ -10,7 +10,10 @@ setClass(
 setValidity(
     Class = "binary_vector",
     method = function(object) {
-        ## Complete this function
+        if (!all(object %in% c(0, 1))) {
+            return("All elements must be 0 or 1")
+        }
+        return(TRUE)
     }
 )
 
@@ -19,7 +22,8 @@ setAs(
     from = "character",
     to = "binary_vector",
     def = function(from) {
-        ## Complete this function
+        numeric_values <- as.numeric(from)
+        new("binary_vector", numeric_values)
     }
 )
 
@@ -32,13 +36,19 @@ setAs(
 ## Generic function for adding two vectors
 setGeneric(
     "add_vector",
-    ## Complete the rest of the generic function definition
+    function(x, y) {
+        standardGeneric("add_vector")
+    }
 )
 
 ## Specific method function for adding two binary vectors
 setMethod(
     "add_vector",
-    ## Complete the rest of the method function definition
+    signature(x = "binary_vector", y = "binary_vector"),
+    function(x, y) {
+        result <- (x + y) %% 2
+        new("binary_vector", result)
+    }
 )
 
 
